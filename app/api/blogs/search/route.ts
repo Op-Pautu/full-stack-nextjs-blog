@@ -9,7 +9,8 @@ export const GET = async (req: Request) => {
         const blogs = await prisma.blog.findMany({
             where: {
                 title: {
-                    contains: searchedTitle ?? ""
+                    contains: searchedTitle ?? "",
+                    mode: 'insensitive'
                 }
             }
         })
