@@ -11,7 +11,7 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
             where: { id: id },
             include: { _count: true, blogs: true }
         })
-        return generateSuccessMessage({ ...category }, 200)
+        return generateSuccessMessage({ category }, 200)
     } catch (error) {
         return generateErrorMessage({ error }, 500)
     } finally {

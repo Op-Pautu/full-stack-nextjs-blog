@@ -34,8 +34,8 @@ export const GET = async () => {
 export const POST = async (req: Request) => {
     v2.config({
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+        api_key: process.env.CLOUDINARY_API_KEY
     })
 
     try {
@@ -45,7 +45,7 @@ export const POST = async (req: Request) => {
 
         if (!title || !description || !userId || !location || !categoryId) return generateErrorMessage({ reason: "Invalid Data" }, 422)
 
-        const file = formData.get("image") as Blob || null;
+        const file = formData.get("image") as Blob | null;
         let uploadedFile: UploadApiResponse | null = null;
 
         if (file) {
