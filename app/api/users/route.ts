@@ -9,7 +9,7 @@ export const GET = async () => {
         const users = await prisma.user.findMany()
         return NextResponse.json({
             message: "Success",
-            ...users
+            users
         }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ message: "Error", error }, { status: 500 })

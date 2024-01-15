@@ -1,6 +1,5 @@
 import { connectToDb, generateErrorMessage, generateSuccessMessage } from "@/lib/helpers"
 import prisma from "@/prisma"
-import { NextResponse } from "next/server"
 
 export const GET = async (req: Request, { params }: { params: { id: string } }) => {
     try {
@@ -8,11 +7,11 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
 
         await connectToDb()
 
-        const user = await prisma.user.findFirst({
+        const category = await prisma.category.findFirst({
             where: { id: id },
             include: { _count: true, blogs: true }
         })
-        return generateSuccessMessage({ user }, 200)
+        return generateSuccessMessage({ ...category }, 200)
     } catch (error) {
         return generateErrorMessage({ error }, 500)
     } finally {
