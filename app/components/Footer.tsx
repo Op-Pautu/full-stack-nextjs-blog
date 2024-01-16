@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <p className="font-semibold text-center md:text-xl xs:text-md">
+          <p className="font-semibold md:text-start xs:text-center md:text-xl xs:text-md">
             <span>{new Date().getFullYear()}</span>
             <span> © Copyright</span>
             <span className="font-bold"> Blogify</span>
