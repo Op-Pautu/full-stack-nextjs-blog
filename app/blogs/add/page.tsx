@@ -1,8 +1,11 @@
 "use client";
 
+import React, { ChangeEvent, useState } from "react";
+import { categories } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { ChangeEvent, useState } from "react";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const BlogAdd = () => {
   const { data: session } = useSession();
@@ -39,13 +42,38 @@ const BlogAdd = () => {
       >
         Enter Title
       </h1>
-      <div className="flex w-full">
+      <div className="flex w-full my-5">
         <input
           type="file"
           onChange={handleImageChange}
           className="md:w-[500px] sm:w-[300px] m-auto text-slate-900 bg-gray-100 p-4 rounded-xl font-semibold"
         />
       </div>
+      <div className="flex w-full my-5">
+        <input
+          type="text"
+          placeholder="Location Eg: Delhi, India"
+          className="md:w-[500px] sm:w-[300px] m-auto text-slate-900 bg-gray-100 p-4 rounded-xl font-semibold"
+        />
+      </div>
+      <div className="flex w-full my-5">
+        <select
+          name="category"
+          className="md:w-[500px] sm:w-[300px] m-auto text-slate-900 bg-gray-100 p-4 rounded-xl font-semibold"
+        >
+          {categories.map((item) => (
+            <option value={item.id}>{item.name}</option>
+          ))}
+        </select>
+      </div>
+      <Editor
+        editorStyle={{
+          width: "100%",
+          minHeight: "auto",
+          border: "1px solid #000",
+          padding: 10,
+        }}
+      />
     </section>
   );
 };
