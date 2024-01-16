@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -20,6 +22,12 @@ type BlogProps = {
   location: string;
 };
 
+function getTextFromHtml(html: string) {
+  const elm = document.createElement("span");
+  elm.innerHTML = html;
+  return elm.innerText;
+}
+
 const BlogItem = (props: BlogProps) => {
   return (
     <Card className="hover:border-slate-950 duration-500 flex flex-col w-[400px] h-[550px] mx-4 my-2 rounded-lg">
@@ -37,10 +45,9 @@ const BlogItem = (props: BlogProps) => {
       </CardHeader>
       <CardTitle className="p-3">{props.title}</CardTitle>
       <CardContent className="w-full text-slate-900">
-        <p
-          dangerouslySetInnerHTML={{ __html: props.description }}
-          className="tracking-wide w-full px-2 py-1 text-left"
-        ></p>
+        <p className="tracking-wide w-full px-2 py-1 text-left">
+          {getTextFromHtml(props.description)}
+        </p>
       </CardContent>
       <CardFooter className="w-full h-full p-3">
         <button className="ml-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500">

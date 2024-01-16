@@ -7,7 +7,8 @@ const blogs = [
   {
     id: "65a4feddce871105c3714d6d1",
     title: "NextJS is good",
-    description: "<p>Hello World, you should learn NextJS</p>",
+    description:
+      "<p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>",
     imageUrl:
       "http://res.cloudinary.com/dvc3gau3j/image/upload/v1705311963/nextjs-fullstack-blog/yemiwf2mmyaugeraww0b.jpg",
     userId: "65a3985b86b8de011a6e9bfa",
@@ -19,7 +20,8 @@ const blogs = [
   {
     id: "65a55e31b8ce8e506e402bee2",
     title: "NextJS is good",
-    description: "<p>Hello World</p>",
+    description:
+      "<p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>",
     imageUrl:
       "http://res.cloudinary.com/dvc3gau3j/image/upload/v1705336367/nextjs-fullstack-blog/p2ia9hurvgzhuwcsg3fb.jpg",
     userId: "65a3985b86b8de011a6e9bfa",
@@ -31,7 +33,8 @@ const blogs = [
   {
     id: "65a4feddce871105c3714d6d3",
     title: "NextJS is good",
-    description: "<p>Hello World, you should learn NextJS</p>",
+    description:
+      "<p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>",
     imageUrl:
       "http://res.cloudinary.com/dvc3gau3j/image/upload/v1705311963/nextjs-fullstack-blog/yemiwf2mmyaugeraww0b.jpg",
     userId: "65a3985b86b8de011a6e9bfa",
@@ -43,7 +46,8 @@ const blogs = [
   {
     id: "65a55e31b8ce8e506e402bee4",
     title: "NextJS is good",
-    description: "<p>Hello World</p>",
+    description:
+      "<p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>",
     imageUrl:
       "http://res.cloudinary.com/dvc3gau3j/image/upload/v1705336367/nextjs-fullstack-blog/p2ia9hurvgzhuwcsg3fb.jpg",
     userId: "65a3985b86b8de011a6e9bfa",
@@ -55,7 +59,8 @@ const blogs = [
   {
     id: "65a4feddce871105c3714d6d5",
     title: "NextJS is good",
-    description: "<p>Hello World, you should learn NextJS</p>",
+    description:
+      "<p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>",
     imageUrl:
       "http://res.cloudinary.com/dvc3gau3j/image/upload/v1705311963/nextjs-fullstack-blog/yemiwf2mmyaugeraww0b.jpg",
     userId: "65a3985b86b8de011a6e9bfa",
@@ -67,7 +72,8 @@ const blogs = [
   {
     id: "65a55e31b8ce8e506e402bee6",
     title: "NextJS is good",
-    description: "<p>Hello World</p>",
+    description:
+      "<p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>, <p>Hello World, you should learn NextJS</p>",
     imageUrl:
       "http://res.cloudinary.com/dvc3gau3j/image/upload/v1705336367/nextjs-fullstack-blog/p2ia9hurvgzhuwcsg3fb.jpg",
     userId: "65a3985b86b8de011a6e9bfa",
@@ -108,7 +114,7 @@ const Home = async () => {
           <h2 className="text-2xl font-semibold">Recent Articles</h2>
         </div>
         <div className="flex w-full flex-wrap justify-center">
-          {blogs.map((blog) => (
+          {blogs.slice(0, 6).map((blog) => (
             <BlogItem {...blog} key={blog.id} />
           ))}
         </div>
