@@ -118,6 +118,12 @@ const Home = async () => {
             <BlogItem {...blog} key={blog.id} />
           ))}
         </div>
+        <div className="w-full p-4 text-center">
+          <button className="mx-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500">
+            Explore More Articles
+          </button>
+        </div>
+        <hr className="p-3 my-4" />
       </div>
     </section>
   );
