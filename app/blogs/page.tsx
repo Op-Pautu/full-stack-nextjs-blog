@@ -1,6 +1,7 @@
-import { categories } from "@/lib/utils";
+import { blogs, categories } from "@/lib/utils";
 import React from "react";
 import { FaSearch } from "react-icons/fa";
+import BlogItem from "../components/BlogItem";
 
 const BlogsPage = () => {
   return (
@@ -39,6 +40,11 @@ const BlogsPage = () => {
           <FaSearch className="cursor-pointer" />
         </div>
       </nav>
+      <div className="flex flex-wrap justify-center gap-4 my-1">
+        {blogs.map((blog) => (
+          <BlogItem {...blog} key={blog.id} />
+        ))}
+      </div>
     </section>
   );
 };
