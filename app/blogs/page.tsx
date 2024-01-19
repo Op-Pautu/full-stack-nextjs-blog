@@ -27,7 +27,7 @@ const BlogsPage = () => {
               <option
                 className="bg-gray-100 rounded-md"
                 key={item.id}
-                value={item.name}
+                value={item.id}
               >
                 {item.name}
               </option>

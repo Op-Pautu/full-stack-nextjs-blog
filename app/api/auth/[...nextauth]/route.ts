@@ -58,6 +58,15 @@ export const authOptions: AuthOptions = {
         })
     ],
     secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+        session({ session, token }) {
+            if (session.user && token.sub) {
+                session.user.id = token.sub
+            }
+
+            return session
+        },
+    }
 }
 
 const handler = NextAuth(authOptions)

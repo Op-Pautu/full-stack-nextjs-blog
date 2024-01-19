@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { categories } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { Editor } from "react-draft-wysiwyg";
+
 import { useForm } from "react-hook-form";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+
+import { Editor } from "react-draft-wysiwyg";
 
 const BlogAdd = () => {
   const { data: session } = useSession();
   const [imageUrl, setImageUrl] = useState("");
-  // const [imageFile, setImageFile] = useState<File | null>(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
   const headingRef = useRef<HTMLHeadingElement | null>(null);
+  const isMountedRef = useRef<boolean>(true);
 
   const {
     register,
@@ -20,15 +26,24 @@ const BlogAdd = () => {
     formState: { errors },
   } = useForm();
 
-  // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   // @ts-ignore
-  //   const file = e.target.files[0];
-  //   setImageFile(file);
-  //   setImageUrl(URL.createObjectURL(file));
-  // };
+  useEffect(() => {
+    return () => {
+      // Component will unmount
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handlePost = (data: any) => {
     console.log("Data, ", data);
+    console.log("edtior HTML: ", convertEditorDataToHTML());
+  };
+
+  const convertEditorDataToHTML = () => {
+    return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+  };
+
+  const handleEditorStateChange = (e: any) => {
+    setEditorState(e);
   };
 
   return (
@@ -95,9 +110,11 @@ const BlogAdd = () => {
         </select>
       </div>
       <Editor
+        editorState={editorState}
+        onEditorStateChange={handleEditorStateChange}
         editorStyle={{
           width: "100%",
-          minHeight: "auto",
+          minHeight: "50vh",
           border: "1px solid #000",
           padding: 10,
         }}
