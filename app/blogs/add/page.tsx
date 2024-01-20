@@ -11,6 +11,7 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
 import { Editor } from "react-draft-wysiwyg";
+import toast, { Toaster } from "react-hot-toast";
 
 const BlogAdd = () => {
   const { data: session } = useSession();
@@ -33,9 +34,32 @@ const BlogAdd = () => {
     };
   }, []);
 
-  const handlePost = (data: any) => {
-    console.log("Data, ", data);
-    console.log("edtior HTML: ", convertEditorDataToHTML());
+  const handlePost = async (data: any) => {
+    const formData = new FormData();
+    const postData = JSON.stringify({
+      title: headingRef.current?.innerText,
+      description: convertEditorDataToHTML(),
+      location: data.location,
+      userId: session?.user.id,
+      categoryId: data.category,
+    });
+    formData.append("postData", postData);
+    formData.append("image", data.image[0]);
+
+    try {
+      toast.loading("Sending your post to the world 🌏", { id: "postData" });
+
+      await fetch("http://localhost:3000/api/blogs", {
+        method: "POST",
+        body: formData,
+        cache: "no-store",
+      });
+
+      toast.success("Successfully Sent 🌏", { id: "postData" });
+    } catch (error) {
+      toast.error("Sending Failed", { id: "postData" });
+      console.log(error);
+    }
   };
 
   const convertEditorDataToHTML = () => {
@@ -48,6 +72,7 @@ const BlogAdd = () => {
 
   return (
     <section className="w-full">
+      <Toaster position="top-right" />
       <div className="flex items-center justify-between p-4">
         <div className="w-1/4">
           <span className="mx-3 font-extrabold">Author: </span>
