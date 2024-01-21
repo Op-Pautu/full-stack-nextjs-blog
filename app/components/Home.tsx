@@ -2,10 +2,10 @@ import { getAllBlogs } from "@/lib/helpers";
 import Image from "next/image";
 import React from "react";
 import BlogItem from "./BlogItem";
-import { blogs } from "@/lib/utils";
+import { BlogItemType } from "@/lib/types";
 
 const Home = async () => {
-  // const blogs = await getAllBlogs(6);
+  const blogs = await getAllBlogs(6);
   return (
     <section className="w-full my-4">
       <div className="flex items-center justify-center w-full xs:flex-col md:flex-row">
@@ -34,7 +34,7 @@ const Home = async () => {
           <h2 className="text-2xl font-semibold">Recent Articles</h2>
         </div>
         <div className="flex flex-wrap justify-center w-full">
-          {blogs.slice(0, 6).map((blog) => (
+          {blogs.slice(0, 6).map((blog: BlogItemType) => (
             <BlogItem {...blog} key={blog.id} />
           ))}
         </div>
