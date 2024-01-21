@@ -7,25 +7,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BlogItemType } from "@/lib/types";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-type BlogProps = {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-  categoryId: string;
-  location: string;
-};
+type BlogProps = BlogItemType;
 
 function getTextFromHtml(html: string) {
   const elm = document.createElement("span");
   elm.innerHTML = html;
-  return elm.innerText;
+  return elm.innerText.slice(0, 300);
 }
 
 const BlogItem = (props: BlogProps) => {
@@ -45,14 +37,17 @@ const BlogItem = (props: BlogProps) => {
       </CardHeader>
       <CardTitle className="p-3">{props.title}</CardTitle>
       <CardContent className="w-full text-slate-900">
-        <p className="tracking-wide w-full px-2 py-1 text-left">
+        <p className="w-full px-2 py-1 tracking-wide text-left">
           {getTextFromHtml(props.description)}
         </p>
       </CardContent>
       <CardFooter className="w-full h-full p-3">
-        <button className="ml-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500">
+        <Link
+          href={`/blogs/view/${props.id}`}
+          className="ml-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500"
+        >
           View More
-        </button>
+        </Link>
       </CardFooter>
     </Card>
   );

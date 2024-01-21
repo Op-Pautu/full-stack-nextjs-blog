@@ -28,3 +28,9 @@ export const getAllBlogs = async (count?: number) => {
 
     return data.blogs
 }
+export const getBlogById = async (id: string) => {
+    const res = await fetch(`http://localhost:3000/api/blogs/${id}`, { cache: "no-store" })
+    const data = await res.json()
+
+    return data.blog
+}

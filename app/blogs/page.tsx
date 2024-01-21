@@ -1,9 +1,12 @@
-import { blogs, categories } from "@/lib/utils";
+import { categories } from "@/lib/utils";
 import React from "react";
 import { FaSearch } from "react-icons/fa";
 import BlogItem from "../components/BlogItem";
+import { getAllBlogs } from "@/lib/helpers";
+import { BlogItemType } from "@/lib/types";
 
-const BlogsPage = () => {
+const BlogsPage = async () => {
+  const blogs = await getAllBlogs();
   return (
     <section className="w-full h-full">
       <div className="flex flex-col gap-3 p-8 my-10">
@@ -41,7 +44,7 @@ const BlogsPage = () => {
         </div>
       </nav>
       <div className="flex flex-wrap justify-center gap-4 my-1">
-        {blogs.map((blog) => (
+        {blogs.map((blog: BlogItemType) => (
           <BlogItem {...blog} key={blog.id} />
         ))}
       </div>
