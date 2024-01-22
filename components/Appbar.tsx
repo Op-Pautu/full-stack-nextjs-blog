@@ -32,7 +32,7 @@ const Appbar = () => {
               <Link
                 key={item.id}
                 href={item.url}
-                className="text-gray-900 text-lg font-semibold hover:text-violet-600 duration-300"
+                className="text-lg font-semibold text-gray-900 duration-300 hover:text-violet-600"
               >
                 {item.name}
               </Link>

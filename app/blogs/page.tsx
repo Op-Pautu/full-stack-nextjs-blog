@@ -1,7 +1,7 @@
 import { categories } from "@/lib/utils";
 import React from "react";
 import { FaSearch } from "react-icons/fa";
-import BlogItem from "../components/BlogItem";
+import BlogItem from "../../components/BlogItem";
 import { getAllBlogs } from "@/lib/helpers";
 import { BlogItemType } from "@/lib/types";
 
