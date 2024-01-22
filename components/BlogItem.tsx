@@ -44,10 +44,18 @@ const BlogItem = (props: BlogProps) => {
       <CardFooter className="w-full h-full p-3">
         <Link
           href={`/blogs/view/${props.id}`}
-          className="ml-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500"
+          className="mr-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500"
         >
           View More
         </Link>
+        {props.isProfile && (
+          <Link
+            href={`/blogs/edit/${props.id}`}
+            className="ml-auto mt-auto border-[1px] p-3 rounded-lg hover:bg-violet-600 font-semibold hover:text-violet-100 duration-500"
+          >
+            Edit Blog
+          </Link>
+        )}
       </CardFooter>
     </Card>
   );
