@@ -1,26 +1,49 @@
 "use client";
 
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
+import {
+  ContentState,
+  EditorState,
+  convertFromHTML,
+  convertToRaw,
+} from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import toast, { Toaster } from "react-hot-toast";
+import { BlogItemType } from "@/lib/types";
+
+const getBlogById = async (id: string) => {
+  const res = await fetch(`http://localhost:3000/api/blogs/${id}`, {
+    cache: "no-store",
+  });
+
+  const data = await res.json();
+  return data.blog;
+};
 
 const EditBlog = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
-  const [imageUrl, setImageUrl] = useState("");
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const headingRef = useRef<HTMLHeadingElement | null>(null);
-  const isMountedRef = useRef<boolean>(true);
 
   useEffect(() => {
-    return () => {
-      // Component will unmount
-      isMountedRef.current = false;
-    };
+    getBlogById(params.id)
+      .then((data: BlogItemType) => {
+        const contentBlocks = convertFromHTML(data.description);
+        const contentState = ContentState.createFromBlockArray(
+          contentBlocks.contentBlocks
+        );
+
+        const initialState = EditorState.createWithContent(contentState);
+        setEditorState(initialState);
+
+        if (headingRef && headingRef.current)
+          headingRef.current.innerText = data.title;
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const handlePost = async (data: any) => {
