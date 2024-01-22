@@ -13,6 +13,7 @@ import { useState, useRef, useEffect } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import toast, { Toaster } from "react-hot-toast";
 import { BlogItemType } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const getBlogById = async (id: string) => {
   const res = await fetch(`http://localhost:3000/api/blogs/${id}`, {
@@ -23,13 +24,27 @@ const getBlogById = async (id: string) => {
   return data.blog;
 };
 
+const updateBlog = async (id: string, postData: any) => {
+  const res = await fetch(`http://localhost:3000/api/blogs/${id}`, {
+    cache: "no-store",
+    method: "PUT",
+    body: JSON.stringify({ ...postData }),
+  });
+
+  const data = await res.json();
+  return data.blog;
+};
+
 const EditBlog = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [isLoading, setIsLoading] = useState(false);
 
   const headingRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
+    setIsLoading(true);
+    toast.loading("Updating Blog Details", { id: "loading" });
     getBlogById(params.id)
       .then((data: BlogItemType) => {
         const contentBlocks = convertFromHTML(data.description);
@@ -42,25 +57,17 @@ const EditBlog = ({ params }: { params: { id: string } }) => {
 
         if (headingRef && headingRef.current)
           headingRef.current.innerText = data.title;
+        setIsLoading(false);
+        toast.success("Successfully Updated", { id: "loading" });
       })
-      .catch((err) => console.log(err));
-  }, []);
-
-  const handlePost = async (data: any) => {
-    try {
-      toast.loading("Sending your post to the world 🌏", { id: "postData" });
-
-      await fetch("http://localhost:3000/api/blogs", {
-        method: "POST",
-        cache: "no-store",
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error updating", { id: "loading" });
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-
-      toast.success("Successfully Sent 🌏", { id: "postData" });
-    } catch (error) {
-      toast.error("Sending Failed", { id: "postData" });
-      console.log(error);
-    }
-  };
+  }, []);
 
   const convertEditorDataToHTML = () => {
     return draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -68,6 +75,22 @@ const EditBlog = ({ params }: { params: { id: string } }) => {
 
   const handleEditorStateChange = (e: any) => {
     setEditorState(e);
+  };
+
+  const handlePost = async () => {
+    const postData = {
+      title: headingRef.current?.innerText,
+      description: convertEditorDataToHTML(),
+    };
+
+    try {
+      toast.loading("Updating Your Blog Post", { id: "postUpdate" });
+      await updateBlog(params.id, postData);
+      toast.success("Successfully Updated", { id: "postUpdate" });
+    } catch (error) {
+      toast.error("Sending Failed", { id: "postUpdate" });
+      console.log(error);
+    }
   };
 
   return (
@@ -86,14 +109,20 @@ const EditBlog = ({ params }: { params: { id: string } }) => {
         </button>
       </div>
 
-      <h1
-        ref={headingRef}
-        contentEditable={true}
-        suppressContentEditableWarning={true}
-        className="w-full p-4 mx-auto font-serif text-2xl font-semibold text-center border-none outline-none h-28 focus:border-none"
-      >
-        Enter Title
-      </h1>
+      {isLoading ? (
+        <div className="p-4 h-28">
+          <Skeleton className="w-[300px] h-[50px] rounded-lg mx-auto" />
+        </div>
+      ) : (
+        <h1
+          ref={headingRef}
+          contentEditable={true}
+          suppressContentEditableWarning={true}
+          className="w-full p-4 mx-auto font-serif text-2xl font-semibold text-center border-none outline-none h-28 focus:border-none"
+        >
+          Enter Title
+        </h1>
+      )}
 
       <Editor
         editorState={editorState}
