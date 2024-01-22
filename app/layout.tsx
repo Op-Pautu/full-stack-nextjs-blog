@@ -3,6 +3,7 @@ import "./globals.css";
 import Provider from "../components/Provider";
 import Appbar from "../components/Appbar";
 import Footer from "../components/Footer";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Blogit",
@@ -16,8 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body className="flex flex-col min-h-screen">
         <Provider>
+          <Toaster position="top-right" />
           <Appbar />
           <main className="flex-1">{children}</main>
           <Footer />

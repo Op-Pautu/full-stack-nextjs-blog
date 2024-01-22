@@ -11,7 +11,7 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
 import { Editor } from "react-draft-wysiwyg";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const BlogAdd = () => {
   const { data: session } = useSession();
@@ -72,7 +72,6 @@ const BlogAdd = () => {
 
   return (
     <section className="w-full">
-      <Toaster position="top-right" />
       <div className="flex items-center justify-between p-4">
         <div className="w-1/4">
           <span className="mx-3 font-extrabold">Author: </span>

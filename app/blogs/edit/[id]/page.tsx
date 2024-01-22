@@ -11,7 +11,7 @@ import draftToHtml from "draftjs-to-html";
 import { useSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { BlogItemType } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -67,7 +67,7 @@ const EditBlog = ({ params }: { params: { id: string } }) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }, [params.id]);
 
   const convertEditorDataToHTML = () => {
     return draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -95,7 +95,6 @@ const EditBlog = ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="w-full">
-      <Toaster position="top-right" />
       <div className="flex items-center justify-between p-4">
         <div className="w-1/4">
           <span className="mx-3 font-extrabold">Author: </span>
