@@ -11,6 +11,7 @@ import { BlogItemType } from "@/lib/types";
 import error from "next/error";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
@@ -29,11 +30,13 @@ const deleteBlog = async (id: string) => {
   });
 };
 const BlogItem = (props: BlogProps) => {
+  const router = useRouter();
   const handleDelete = async () => {
     try {
       toast.loading("Deleting Blog ❌", { id: "delete" });
       await deleteBlog(props.id);
       toast.success("Deleled Blog ✔️", { id: "delete" });
+      router.push("/");
     } catch (error) {
       toast.error("Failed to delete", { id: "delete" });
       console.log(error);
