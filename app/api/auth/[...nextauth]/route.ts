@@ -2,7 +2,7 @@ import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { connectToDb } from "@/lib/helpers";
+import { connectToDb, verifyUserDetails } from "@/lib/helpers";
 import prisma from "@/prisma";
 import bcrypt from 'bcrypt'
 
@@ -10,7 +10,7 @@ export const authOptions: AuthOptions = {
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_CLIENT_ID as string,
-            clientSecret: process.env.GITHUB_CLIENT_ID as string
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -66,6 +66,20 @@ export const authOptions: AuthOptions = {
 
             return session
         },
+        async signIn({ account, user, profile }) {
+            if (account?.provider === "github" || account?.provider === "google") {
+                const newUser = await verifyUserDetails(user)
+
+                if (typeof newUser !== null) {
+                    // @ts-ignore
+                    user.id = newUser?.id
+                    if (profile && profile.sub) {
+                        profile.sub = newUser?.id
+                    }
+                }
+            }
+            return true
+        }
     }
 }
 

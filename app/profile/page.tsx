@@ -10,6 +10,8 @@ import { UserItemType } from "@/lib/types";
 
 const ProfilePage = async () => {
   const sessionData = await getServerSession(authOptions);
+  console.log(sessionData);
+
   const userData: UserItemType = await getUserById(sessionData?.user.id ?? "");
   return (
     <section className="flex flex-col w-full h-full">
